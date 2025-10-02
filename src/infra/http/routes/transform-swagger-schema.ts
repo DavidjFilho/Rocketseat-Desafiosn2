@@ -25,6 +25,8 @@ export function transformSwaggerSchema(data: TransformSwaggerSchemaData) {
       type: 'string',
       format: 'binary',
     }
+
+    body.required.push('file')
   }
 
   return { schema, url }
