@@ -1,9 +1,10 @@
-import { Readable } from 'node:stream'
 import { db } from '@/infra/db'
 import { schema } from '@/infra/db/schemas'
 import { type Either, makeLeft, makeRight } from '@/infra/shared/either'
+import { uploadFileToStorage } from '@/infra/storage/upload-file-to-storage'
 import { z } from 'zod'
 import { InvalidFileFormat } from './errors/invalid-file-format'
+import { Readable } from 'node:stream'
 
 const uploadImageInput = z.object({
   fileName: z.string(),
@@ -25,12 +26,18 @@ export async function uploadImage(
   }
 
   //TODO: Carregar a imagem p/ o CLoudflare R2
+  const { key, url } = await uploadFileToStorage({
+    folder: 'images',
+    fileName,
+    contentType,
+    contentStream,
+  })
 
   await db.insert(schema.uploads).values({
     name: fileName,
-    remoteKey: fileName,
-    remoteUrl: fileName,
+    remoteKey: key,
+    remoteUrl: url,
   })
 
-  return makeRight({ url: '' })
+  return makeRight({ url })
 }
