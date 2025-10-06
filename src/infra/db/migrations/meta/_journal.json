@@ -8,6 +8,13 @@
       "when": 1758817193997,
       "tag": "0000_unknown_wild_pack",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1759759102683,
+      "tag": "0001_vengeful_penance",
+      "breakpoints": true
     }
   ]
 }
